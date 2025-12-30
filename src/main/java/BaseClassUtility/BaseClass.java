@@ -30,23 +30,22 @@ public class BaseClass {
 	public WebDriverUtility wutil = new WebDriverUtility();
 	public WebDriver driver = null;
 
-	@BeforeSuite
+	@BeforeSuite(alwaysRun = true)
 	public void connectToDatabase() throws SQLException {
 		Reporter.log("Get connection with the Database", true);
 		dutil.connectToDatabase();
 
 	}
 
-	@BeforeTest
+	@BeforeTest(alwaysRun = true)
 	public void configParallelExe() {
 		Reporter.log("Configuration of parallel execution", true);
 	}
 
 //	@Parameters("browser")
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void launchTheBrowser() throws IOException {
-		String browser = putil.fetchDataFromPropertyFile("browser");
-
+		String browser = System.getProperty("browser", putil.fetchDataFromPropertyFile("browser"));
 		Reporter.log("Launch the browser", true);
 		if (browser.equals("chrome")) {
 			driver = new ChromeDriver();
@@ -62,12 +61,13 @@ public class BaseClass {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void login() throws IOException {
-		String url = putil.fetchDataFromPropertyFile("url");
-		String username = putil.fetchDataFromPropertyFile("username");
-		String password = putil.fetchDataFromPropertyFile("password");
-		String timeouts = putil.fetchDataFromPropertyFile("timeouts");
+
+		String url = System.getProperty("url", putil.fetchDataFromPropertyFile("url"));
+		String username = System.getProperty("username", putil.fetchDataFromPropertyFile("username"));
+		String password = System.getProperty("password", putil.fetchDataFromPropertyFile("password"));
+		String timeouts = System.getProperty("timeouts", putil.fetchDataFromPropertyFile("timeouts"));
 
 		wutil.maximizeTheWindow(driver);
 		wutil.waitForAnElement(driver, timeouts);
@@ -78,7 +78,7 @@ public class BaseClass {
 		l.login(username, password);
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void logout() {
 		HomePompage home = new HomePompage(driver);
 		Reporter.log("Logout from the application", true);
@@ -86,18 +86,18 @@ public class BaseClass {
 		home.getSignout();
 	}
 
-	@AfterClass
+	@AfterClass(alwaysRun = true)
 	public void quitTheBrowser() {
 		Reporter.log("Quit the Browser", true);
 		wutil.quitTheBrowser(driver);
 	}
 
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	public void closeParallelExe() {
 		Reporter.log("Close Parallel Execution", true);
 	}
 
-	@AfterSuite
+	@AfterSuite(alwaysRun = true)
 	public void disconnectWithDatabase() throws SQLException {
 		Reporter.log("Disconnect with the Database", true);
 		dutil.closeDatabaseConnection();

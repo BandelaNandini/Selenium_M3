@@ -82,8 +82,9 @@ public class ListernersUtility implements ISuiteListener, ITestListener {
 	@Override
 	public void onFinish(ISuite suite) {
 		Reporter.log("Suite Execution Finished -Adv report backup", true);
-		UtilityObjectClass.getStest().log(Status.INFO, "Suite Execution Finished -Adv report backup");
 		report.flush();
+
+//		UtilityObjectClass.getStest().log(Status.INFO, "Suite Execution Finished -Adv report backup");
 	}
 
 }

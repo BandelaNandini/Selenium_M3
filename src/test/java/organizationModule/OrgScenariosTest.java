@@ -27,15 +27,15 @@ public class OrgScenariosTest extends BaseClass {
 	@Test(groups = "smoke", retryAnalyzer = GenericUtilities.RetryAnalyserUtility.class)
 	public void createOrgTest() throws IOException, InterruptedException {
 
-		UtilityObjectClass.getStest().log(Status.INFO, " Creating instances");
+		UtilityObjectClass.getStest().log(Status.INFO,"Creating instances");
 		JavaUtility jutil = new JavaUtility();
 		ExcelFileUtility exutil = new ExcelFileUtility();
 		WebDriverUtility wutil = new WebDriverUtility();
 
-		UtilityObjectClass.getStest().log(Status.INFO, " Get the random no");
+		UtilityObjectClass.getStest().log(Status.INFO, "Get the random no");
 		int randomint = jutil.generateRandomNo();
 
-		UtilityObjectClass.getStest().log(Status.INFO, " Fetch data from excel utility");
+		UtilityObjectClass.getStest().log(Status.INFO, "Fetch data from excel utility");
 		String orgname = exutil.fetchDataFromExcelFile("organization", 1, 2) + randomint;
 
 		HomePompage home = new HomePompage(driver);
@@ -47,7 +47,6 @@ public class OrgScenariosTest extends BaseClass {
 
 		UtilityObjectClass.getStest().log(Status.INFO, " Identify org tab and click on it");
 		home.getOrg_tab();
-
 		UtilityObjectClass.getStest().log(Status.INFO, " Identify plus icon and click on it");
 		OrgPompage org = new OrgPompage(driver);
 		org.getPlusicon();
